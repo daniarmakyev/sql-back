@@ -1,0 +1,23 @@
+# Virtual environment
+venv/
+
+# Pycache
+__pycache__/
+*.pyc
+
+# Environment files
+.env
+
+# Git files
+.git/
+.gitignore
+
+# Database file
+sql_challenge.db
+
+# Test files
+test_performance.py
+
+# Docker files
+.dockerignore
+Dockerfile
