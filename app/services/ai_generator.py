@@ -8,7 +8,14 @@ from typing import Dict, Any, List
 
 logging.basicConfig(level=logging.ERROR)
 
-client = AsyncOpenAI(api_key=settings.GROQ_API_KEY, base_url=settings.GROQ_BASE_URL)
+client = AsyncOpenAI(
+    api_key=settings.GROQ_API_KEY,
+    base_url=settings.GROQ_BASE_URL,
+    default_headers={
+        "HTTP-Referer": "https://sqlpractice.app",
+        "X-Title": "SQL Practice",
+    },
+)
 
 SYSTEM_PROMPT = """You are an expert SQL educator creating practice challenges.
 
@@ -315,12 +322,11 @@ Return ONLY the JSON object with no additional text."""
     for attempt in range(max_retries):
         try:
             response = await client.chat.completions.create(
-                model="llama-3.3-70b-versatile",
+                model="meta-llama/llama-3.3-70b-instruct",
                 messages=[
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": user_prompt},
                 ],
-                response_format={"type": "json_object"},
                 temperature=0.7 if attempt == 0 else 0.5,
                 max_tokens=6000,
             )
