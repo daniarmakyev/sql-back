@@ -315,7 +315,7 @@ Return ONLY the JSON object with no additional text."""
     for attempt in range(max_retries):
         try:
             response = await client.chat.completions.create(
-                model="openai/gpt-oss-120b",
+                model="llama-3.3-70b-versatile",
                 messages=[
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": user_prompt},
