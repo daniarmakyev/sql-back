@@ -8,13 +8,10 @@ from typing import Dict, Any, List
 
 logging.basicConfig(level=logging.ERROR)
 
+# Используем OpenRouter с моделью NVIDIA Nemotron 3 Ultra
 client = AsyncOpenAI(
-    api_key=settings.GROQ_API_KEY,
-    base_url=settings.GROQ_BASE_URL,
-    default_headers={
-        "HTTP-Referer": "https://sqlpractice.app",
-        "X-Title": "SQL Practice",
-    },
+    api_key=settings.GROQ_API_KEY,  # Переменная называется GROQ_API_KEY, но теперь содержит ключ OpenRouter
+    base_url="https://openrouter.ai/api/v1",  # Базовый URL OpenRouter
 )
 
 SYSTEM_PROMPT = """You are an expert SQL educator creating practice challenges.
@@ -114,7 +111,7 @@ Response format:
       ]
     }
   ],
-  "hints": ["Подсказка (Russian)"]
+  "hints": ["Подсказка (Russian)]
 }"""
 
 
@@ -322,7 +319,7 @@ Return ONLY the JSON object with no additional text."""
     for attempt in range(max_retries):
         try:
             response = await client.chat.completions.create(
-                model="openai/gpt-oss-120b:free",
+                model="nvidia/nemotron-3-ultra-550b-a55b:free",  # Новая модель NVIDIA через OpenRouter
                 messages=[
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": user_prompt},
